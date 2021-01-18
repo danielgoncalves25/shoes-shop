@@ -15,9 +15,15 @@ class _TabScreenState extends State<TabScreen> {
     Home(),
     Profile(),
   ];
+
   int _selectedTab = 0;
+  bool isCart = false;
+
   void _selectTab(int index) {
-    setState(() => _selectedTab = index);
+    setState(() {
+      _selectedTab = index;
+      isCart = index == 1 ? true : false;
+    });
   }
 
   @override
@@ -27,12 +33,13 @@ class _TabScreenState extends State<TabScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
               onTap: () {
-                setState(() => _selectedTab = 1);
+                setState(() => _selectedTab = 2);
               },
               child: CircleAvatar(
                 backgroundColor: Colors.grey,
@@ -93,43 +100,51 @@ class _TabScreenState extends State<TabScreen> {
                     ),
                     onTap: () {
                       print('Cart Icon was tapped');
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => Cart(),
-                      //   ),
-                      // );
+                      Navigator.pushNamed(context, '/cart');
                     },
                   ),
           ],
         ),
       ),
       body: _tabs[_selectedTab],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectTab,
-        //backgroundColor: Theme.of(context).primaryColor,
-        selectedItemColor: Colors.white,
-        // selectedFontSize: 40,
-        unselectedItemColor: Theme.of(context).primaryColor,
-        currentIndex: _selectedTab,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              size: 30,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('Cart Icon was tapped');
+          Navigator.pushNamed(context, '/cart');
+        },
+        child: Icon(Icons.shopping_cart_outlined),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        clipBehavior: Clip.antiAlias,
+        shape: CircularNotchedRectangle(),
+        notchMargin: 5,
+        child: BottomNavigationBar(
+          onTap: _selectTab,
+          // backgroundColor: Colors.white,
+          selectedItemColor: Colors.white,
+          // selectedFontSize: 40,
+          unselectedItemColor: Theme.of(context).primaryColor,
+          currentIndex: _selectedTab,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                size: 30,
+              ),
+              label: "",
             ),
-            label: "",
-          ),
-          BottomNavigationBarItem(
-            backgroundColor: Theme.of(context).primaryColor,
-            icon: Icon(
-              Icons.person,
-              size: 30,
+            BottomNavigationBarItem(
+              backgroundColor: Theme.of(context).primaryColor,
+              icon: Icon(
+                Icons.person,
+                size: 30,
+              ),
+              label: "",
             ),
-            label: "",
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
