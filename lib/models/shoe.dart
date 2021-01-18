@@ -2,8 +2,8 @@ class Shoe {
   String sku;
   String brand;
   String name;
-  int price;
-  String imgPath;
+  int retailPrice;
+  String imgUrl;
   String colorway;
   String releaseDate;
   String story;
@@ -11,10 +11,10 @@ class Shoe {
   Shoe({
     this.sku,
     this.brand,
-    this.imgPath,
+    this.imgUrl,
     this.colorway,
     this.name,
-    this.price,
+    this.retailPrice,
     this.releaseDate,
     this.story,
   });
@@ -22,9 +22,9 @@ class Shoe {
   factory Shoe.fromMap(Map<String, dynamic> map) {
     return Shoe(
         brand: map['brand'],
-        imgPath: map['imgUrl'],
+        imgUrl: map['imgUrl'],
         name: map['name'],
-        price: map['retailPrice'],
+        retailPrice: map['retailPrice'],
         releaseDate: map['releaseDate'],
         sku: map['sku'],
         colorway: map['colorway'],
@@ -35,10 +35,10 @@ class Shoe {
     return {
       'sku': sku,
       'brand': brand,
-      'imgPath': imgPath,
+      'imgUrl': imgUrl,
       'colorway': colorway,
       'name': name,
-      'price': price,
+      'retailPrice': retailPrice,
       'releaseDate': releaseDate,
       'story': story,
     };
