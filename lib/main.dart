@@ -12,12 +12,13 @@ import './screens/screens.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      name: 'Sneakers-App',
-      options: const FirebaseOptions(
-          appId: '$fireBaseAppId',
-          apiKey: '$fireBaseKey',
-          messagingSenderId: 'my_messagingSenderId',
-          projectId: 'sneaker-app-dd2ba'));
+    name: 'Sneakers-App',
+    options: const FirebaseOptions(
+        appId: '$fireBaseAppId',
+        apiKey: '$fireBaseKey',
+        messagingSenderId: 'my_messagingSenderId',
+        projectId: 'sneaker-app-dd2ba'),
+  );
   runApp(MyApp());
 }
 
@@ -46,12 +47,17 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
           brightness: Brightness.dark,
+          backgroundColor: Colors.grey,
           primaryColor: Colors.lightBlue[800],
           accentColor: Colors.blueAccent,
           fontFamily: 'Oswald',
           textTheme: TextTheme(
             headline1: GoogleFonts.oswald(
               fontSize: 32,
+            ),
+            headline4: GoogleFonts.oswald(
+              fontSize: 20,
+              // fontWeight: FontWeight.w500
             ),
             headline6: GoogleFonts.oswald(
               fontSize: 14,

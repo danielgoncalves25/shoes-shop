@@ -45,6 +45,7 @@ class Authentication {
         },
         'cart': []
       });
+      print('this is from signup function UID: ${currentUser.uid}');
 
       return true;
     } on FirebaseAuthException catch (e) {

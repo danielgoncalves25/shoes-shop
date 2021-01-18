@@ -84,7 +84,7 @@ class ApiService {
 
   addToCart(var userData, String uid, Shoe shoe) async {
     List cartItems = userData['cart'];
-    // print(shoe.toJson());
+    print(shoe.toJson());
     cartItems.add(shoe.toJson());
     await FirebaseFirestore.instance
         .collection('users')
