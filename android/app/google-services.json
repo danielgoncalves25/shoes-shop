@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "506452453455",
+    "project_id": "sneaker-app-dd2ba",
+    "storage_bucket": "sneaker-app-dd2ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506452453455:android:c90b4b62485b4dfea0223a",
+        "android_client_info": {
+          "package_name": "com.arise.sneakerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "506452453455-ra89ejoonsfi3h0u7133q4uh43hfo6bs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4n2WTA5asbUrNhlUTrYwgCGaNHjNhJLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "506452453455-ra89ejoonsfi3h0u7133q4uh43hfo6bs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
