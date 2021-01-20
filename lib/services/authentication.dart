@@ -12,6 +12,7 @@ class Authentication {
 
   Stream<DocumentSnapshot> get userData =>
       _fireStore.collection('users').doc(currentUser.uid).snapshots();
+
   String errorCode;
 
   Future<void> signOut() async {

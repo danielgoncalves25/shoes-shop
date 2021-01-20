@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,8 +28,9 @@ class _TabScreenState extends State<TabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var userData = context.watch<DocumentSnapshot>().data();
+    // var userData = context.watch<DocumentSnapshot>().data();
     // print(userData);
+    var userData = {'cart': []};
 
     return Scaffold(
       appBar: AppBar(
@@ -39,7 +40,7 @@ class _TabScreenState extends State<TabScreen> {
           children: [
             GestureDetector(
               onTap: () {
-                setState(() => _selectedTab = 2);
+                setState(() => _selectedTab = 1);
               },
               child: CircleAvatar(
                 backgroundColor: Colors.grey,

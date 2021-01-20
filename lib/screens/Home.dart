@@ -19,6 +19,8 @@ class _HomeState extends State<Home> {
   Future defaultShoes;
   Future genders;
   Future brands;
+  Stream<DocumentSnapshot> data;
+
   String selectedBrand;
 
   @override
@@ -27,12 +29,13 @@ class _HomeState extends State<Home> {
     defaultShoes = _getShoes();
     genders = _getGenders();
     brands = _getBrands();
+    data = context.read<Authentication>().userData;
   }
 
   _getShoes() async {
     return await context
         .read<ApiService>()
-        .fetchShoes(year: year, gender: 'men', brand: 'Nike');
+        .fetchShoes(year: year, gender: 'men', brand: '');
   }
 
   _getGenders() async {
@@ -45,107 +48,115 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // List<Shoe> cart;
     String uid = context.watch<User>().uid;
-    Map userData = context.watch<DocumentSnapshot>().data();
-    if (userData == null) {
-      print('data null');
-    }
     Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      // backgroundColor: Theme.of(context).backgroundColor,
       body: Container(
         width: double.infinity,
         height: double.infinity,
         child: SafeArea(
           child: SingleChildScrollView(
             physics: ScrollPhysics(),
-            child: Column(
-              children: [
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: Text(
-                        userData != null
-                            ? 'Hello ${userData['name']['firstName']}'
-                            : '',
-                        style: Theme.of(context).textTheme.headline1,
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4.0),
-                ),
-                Container(
-                  height: screenSize.height * .06,
-                  child: FutureBuilder(
-                    future: brands,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 13,
-                            itemBuilder: (context, index) {
-                              var currentBrand = snapshot.data[index];
-                              return Container(
-                                width: screenSize.width * .25,
-                                child: Card(
-                                  color: selectedBrand == currentBrand
-                                      ? Theme.of(context).accentColor
-                                      : null,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(20),
-                                    splashColor: Theme.of(context).primaryColor,
-                                    onTap: () {
-                                      setState(() => selectedBrand =
-                                          selectedBrand == currentBrand
-                                              ? null
-                                              : currentBrand);
-                                      setState(() {
-                                        defaultShoes = context
-                                            .read<ApiService>()
-                                            .fetchShoes(
-                                                year: year,
-                                                gender: 'men',
-                                                brand: selectedBrand ?? '');
-                                      });
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Center(
-                                        child: Text(
-                                          currentBrand,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline6,
+            child: StreamBuilder<DocumentSnapshot>(
+                stream: data,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    print('HomePage has data');
+                    Map userData = snapshot.data.data();
+                    return Column(
+                      children: [
+                        Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: Text(
+                                'Hello ${userData['name']['firstName']}',
+                                style: Theme.of(context).textTheme.headline1,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                        ),
+                        Container(
+                          height: screenSize.height * .06,
+                          child: FutureBuilder(
+                            future: brands,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 4.0),
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 13,
+                                    itemBuilder: (context, index) {
+                                      var currentBrand = snapshot.data[index];
+                                      return Container(
+                                        width: screenSize.width * .25,
+                                        child: Card(
+                                          color: selectedBrand == currentBrand
+                                              ? Theme.of(context).accentColor
+                                              : null,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: InkWell(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            splashColor:
+                                                Theme.of(context).primaryColor,
+                                            onTap: () {
+                                              setState(() => selectedBrand =
+                                                  selectedBrand == currentBrand
+                                                      ? null
+                                                      : currentBrand);
+                                              setState(() {
+                                                defaultShoes = context
+                                                    .read<ApiService>()
+                                                    .fetchShoes(
+                                                        year: year,
+                                                        gender: 'men',
+                                                        brand: selectedBrand ??
+                                                            '');
+                                              });
+                                            },
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Center(
+                                                child: Text(
+                                                  currentBrand,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline6,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
+                                      );
+                                    },
                                   ),
-                                ),
-                              );
+                                );
+                              }
+                              print('HomePage has no  data');
+                              return CircularProgressIndicator();
                             },
                           ),
-                        );
-                      }
-                      return CircularProgressIndicator();
-                    },
-                  ),
-                ),
-                ShoesList(
-                    defaultShoes: defaultShoes,
-                    screenSize: screenSize,
-                    userData: userData,
-                    uid: uid),
-              ],
-            ),
+                        ),
+                        ShoesList(
+                            defaultShoes: defaultShoes,
+                            screenSize: screenSize,
+                            userData: userData,
+                            uid: uid),
+                      ],
+                    );
+                  }
+                  return Container();
+                }),
           ),
         ),
       ),

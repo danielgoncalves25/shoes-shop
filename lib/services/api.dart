@@ -44,7 +44,7 @@ class ApiService {
       }
       print(response.statusCode);
     } catch (e) {
-      print('error : ' + e.toString());
+      print('error : $e');
       return null;
     }
   }
@@ -61,7 +61,7 @@ class ApiService {
         return brands;
       }
     } catch (e) {
-      print('There was a problem');
+      print('There was a problem: $e');
       return null;
     }
   }
@@ -82,7 +82,7 @@ class ApiService {
     }
   }
 
-  addToCart(var userData, String uid, Shoe shoe) async {
+  void addToCart(var userData, String uid, Shoe shoe) async {
     List cartItems = userData['cart'];
     print(shoe.toJson());
     cartItems.add(shoe.toJson());
