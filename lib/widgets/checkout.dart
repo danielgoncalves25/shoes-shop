@@ -6,11 +6,13 @@ class Checkout extends StatelessWidget {
     @required this.cart,
     @required this.total,
     @required this.screenSize,
+    @required this.items,
   }) : super(key: key);
 
   final List cart;
   final int total;
   final Size screenSize;
+  final int items;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class Checkout extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text('${cart.length} Items',
+                Text('$items Items',
                     style: Theme.of(context).textTheme.headline4),
                 Spacer(),
                 Text('\$$total', style: Theme.of(context).textTheme.headline4),

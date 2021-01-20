@@ -34,8 +34,11 @@ class _CartState extends State<Cart> {
               if (snapshot.hasData) {
                 List cart = snapshot.data.data()['cart'];
                 int total = 0;
-                for (int i = 0; i < cart.length; i++)
-                  total += cart[i]['retailPrice'];
+                int items = 0;
+                for (int i = 0; i < cart.length; i++) {
+                  total += cart[i]['retailPrice'] * cart[i]['quantity'];
+                  items += cart[i]['quantity'];
+                }
                 return Column(
                   children: [
                     Row(
@@ -65,9 +68,9 @@ class _CartState extends State<Cart> {
                       child: Container(
                         height: screenSize.height * .58,
                         child: ListView.builder(
-                          // shrinkWrap: true,
                           itemCount: cart.length,
                           itemBuilder: (context, index) {
+                            // Shoe.fromMap quantity amount is 1 by default.
                             Shoe shoe = Shoe.fromMap(cart[index]);
                             var isStockxImg =
                                 shoe.imgUrl.contains('stockx') ? true : false;
@@ -99,7 +102,11 @@ class _CartState extends State<Cart> {
                       ),
                     ),
                     // Spacer(),
-                    Checkout(cart: cart, total: total, screenSize: screenSize),
+                    Checkout(
+                        cart: cart,
+                        total: total,
+                        items: items,
+                        screenSize: screenSize),
                   ],
                 );
               }

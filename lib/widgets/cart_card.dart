@@ -37,12 +37,8 @@ class CartCard extends StatelessWidget {
                       children: <Widget>[
                         Text('\$${shoe.retailPrice}'),
                         Text('|'),
-
-                        // Spacer(
-                        //   flex: 2,
-                        // ),
                         // This is the Quantity, it will be implemented later
-                        Text('1X'),
+                        Text('${shoe.quantity}X'),
                         Text('|'),
                         // This is suppose to be the shoe size selected
                         Text('15'),

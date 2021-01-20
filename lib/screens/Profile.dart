@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../services/services.dart';
@@ -21,7 +21,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    String uid = context.watch<User>().uid;
+    // String uid = context.watch<User>().uid;
     Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -38,7 +38,6 @@ class _ProfileState extends State<Profile> {
                 children: [
                   Text('First Name: ${userData['name']['firstName']}'),
                   Text('Last Name: ${userData['name']['lastName']}'),
-                  Text('Uid: $uid'),
                   Text('hi'),
                 ],
               );

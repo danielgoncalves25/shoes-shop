@@ -54,7 +54,6 @@ class ApiService {
       var response = await http.get(brandsUrl);
       if (response.statusCode == 200) {
         var data = json.decode(response.body)['results'];
-        // print(data);
         List<String> brands = [];
         data.forEach((brand) => brands.add(brand));
 
@@ -71,7 +70,6 @@ class ApiService {
       var response = await http.get(gendersUrl);
       if (response.statusCode == 200) {
         var data = json.decode(response.body)['results'];
-        // print(data);
         List<String> genders = [];
         data.forEach((gender) => genders.add(gender));
         return genders;
@@ -84,12 +82,22 @@ class ApiService {
 
   void addToCart(var userData, String uid, Shoe shoe) async {
     List cartItems = userData['cart'];
-    print(shoe.toJson());
-    cartItems.add(shoe.toJson());
+    bool isShoeInCart = false;
+
+    cartItems.forEach((shoeInCart) {
+      isShoeInCart = shoeInCart['sku'] == shoe.sku ? true : false;
+      if (isShoeInCart) {
+        shoeInCart['quantity'] += 1;
+      }
+    });
+
+    if (isShoeInCart == false) {
+      cartItems.add(shoe.toJson());
+    }
+
     await FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
         .update({'cart': cartItems});
-    print('Added to cart');
   }
 }
