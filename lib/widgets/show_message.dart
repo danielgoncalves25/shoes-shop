@@ -35,7 +35,8 @@ class ShowMessage extends StatelessWidget {
     //     return Container();
     //   },
     // );
-    return Text(message == null ? '' : errors[message],
+    print('the message is $message');
+    return Text(message == null ? ' ' : errors[message],
         style: TextStyle(color: Colors.redAccent));
   }
 }
