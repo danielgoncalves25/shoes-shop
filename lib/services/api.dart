@@ -85,8 +85,8 @@ class ApiService {
     bool isShoeInCart = false;
 
     cartItems.forEach((shoeInCart) {
-      isShoeInCart = shoeInCart['sku'] == shoe.sku ? true : false;
-      if (isShoeInCart) {
+      if (shoeInCart['sku'] == shoe.sku) {
+        isShoeInCart = true;
         shoeInCart['quantity'] += 1;
       }
     });
@@ -95,6 +95,15 @@ class ApiService {
       cartItems.add(shoe.toJson());
     }
 
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .update({'cart': cartItems});
+  }
+
+  void deleteFromCart(var userData, String uid, Shoe shoe, int index) async {
+    List cartItems = userData['cart'];
+    cartItems.removeAt(index);
     await FirebaseFirestore.instance
         .collection('users')
         .doc(uid)

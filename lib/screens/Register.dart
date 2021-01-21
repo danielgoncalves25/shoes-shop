@@ -15,6 +15,7 @@ class _RegisterState extends State<Register> {
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  // final shoeSizeController;
 
   var message;
 
@@ -24,6 +25,7 @@ class _RegisterState extends State<Register> {
     Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
+      // backgroundColor: Theme.of(context).primaryColor,
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -43,6 +45,8 @@ class _RegisterState extends State<Register> {
                   InputForm(emailController, "Email", Icons.email),
                   SizedBox(height: statusBarHeight),
                   InputForm(passwordController, "Password", Icons.lock),
+                  // SizedBox(height: statusBarHeight),
+                  // InputForm(passwordController, "Password", Icons.lock),
                   RaisedButton(
                     onPressed: () async {
                       message = await context.read<Authentication>().signUp(

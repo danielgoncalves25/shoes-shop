@@ -1,7 +1,7 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../services/services.dart';
 import '../widgets/widgets.dart';
@@ -24,9 +24,18 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    String uid = context.watch<Authentication>().currentUser.uid;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          'My Cart',
+          style: Theme.of(context).textTheme.headline1,
+        ),
+        // backgroundColor: Colors.transparent,
+      ),
       body: SafeArea(
         child: StreamBuilder<DocumentSnapshot>(
             stream: data,
@@ -46,17 +55,6 @@ class _CartState extends State<Cart> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                           child: Text(
-                            'My Cart',
-                            style: Theme.of(context).textTheme.headline1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          child: Text(
                             'Check and Pay For Your Items',
                             style: Theme.of(context).textTheme.headline6,
                           ),
@@ -66,43 +64,40 @@ class _CartState extends State<Cart> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: Container(
-                        height: screenSize.height * .58,
+                        height: screenSize.height * .655,
                         child: ListView.builder(
                           itemCount: cart.length,
                           itemBuilder: (context, index) {
-                            // Shoe.fromMap quantity amount is 1 by default.
-                            Shoe shoe = Shoe.fromMap(cart[index]);
-                            var isStockxImg =
+                            final Shoe shoe = Shoe.fromMap(cart[index]);
+                            bool isStockxImg =
                                 shoe.imgUrl.contains('stockx') ? true : false;
-                            return Container(
-                              width: screenSize.width * .9,
-                              child: ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: 1,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    dragStartBehavior: DragStartBehavior.start,
-                                    onHorizontalDragStart: (details) {
-                                      print(' The start is $details');
-                                    },
-                                    onHorizontalDragUpdate: (details) {
-                                      print(' The update is $details');
-                                    },
-                                    child: CartCard(
-                                        screenSize: screenSize,
-                                        shoe: shoe,
-                                        isStockxImg: isStockxImg),
-                                  );
-                                },
-                              ),
+                            return Slidable(
+                              actionPane: SlidableDrawerActionPane(),
+                              secondaryActions: [
+                                IconSlideAction(
+                                  foregroundColor: Colors.red[600],
+                                  color: Colors.transparent,
+                                  caption: 'Delete',
+                                  closeOnTap: true,
+                                  icon: Icons.delete_outline,
+                                  onTap: () {
+                                    print('deleting ${shoe.name}');
+                                    context.read<ApiService>().deleteFromCart(
+                                        snapshot.data.data(), uid, shoe, index);
+                                  },
+                                )
+                              ],
+                              child: CartCard(
+                                  screenSize: screenSize,
+                                  shoe: shoe,
+                                  isStockxImg: isStockxImg),
                             );
                           },
                         ),
                       ),
                     ),
-                    // Spacer(),
-                    Checkout(
+                    Spacer(),
+                    CartDetails(
                         cart: cart,
                         total: total,
                         items: items,

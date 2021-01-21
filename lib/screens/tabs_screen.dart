@@ -1,6 +1,6 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../services/services.dart';
 import './screens.dart';
@@ -18,6 +18,7 @@ class _TabScreenState extends State<TabScreen> {
 
   int _selectedTab = 0;
   bool isCart = false;
+  double scrollDirection;
 
   void _selectTab(int index) {
     setState(() {
@@ -34,24 +35,16 @@ class _TabScreenState extends State<TabScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        // backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            GestureDetector(
-              onTap: () {
-                setState(() => _selectedTab = 1);
-              },
-              child: CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Icon(
-                  Icons.person,
-                  color: Theme.of(context).primaryColor,
-                ),
-                radius: 20,
-              ),
-            ),
-            Text(_selectedTab == 0 ? "Home" : 'Profile'),
+            Container(),
+            Text(_selectedTab == 0 ? "Home" : 'Profile',
+                style: Theme.of(context).textTheme.headline1),
             _selectedTab == 1
                 ? RaisedButton(
                     child: Text('Sign Out'),
@@ -69,35 +62,10 @@ class _TabScreenState extends State<TabScreen> {
                     },
                   )
                 : GestureDetector(
-                    child: Stack(
-                      children: [
-                        Container(
-                          height: 58,
-                          child: Icon(
-                            Icons.shopping_cart_outlined,
-                            size: 25,
-                          ),
-                        ),
-                        Positioned(
-                          right: 0,
-                          child: userData['cart'].length > 0
-                              ? Container(
-                                  width: 20,
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      border: Border.all(),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  child: Center(
-                                    child: Text(
-                                      '${userData['cart'].length}',
-                                      style: TextStyle(),
-                                    ),
-                                  ),
-                                )
-                              : Container(),
-                        ),
-                      ],
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Colors.black,
+                      size: 25,
                     ),
                     onTap: () {
                       print('Cart Icon was tapped');
@@ -107,8 +75,24 @@ class _TabScreenState extends State<TabScreen> {
           ],
         ),
       ),
-      body: _tabs[_selectedTab],
+      body: GestureDetector(
+        onHorizontalDragStart: (details) => setState(() => scrollDirection = 0),
+        onHorizontalDragUpdate: (details) {
+          // print('updating');
+          // print(details.delta.direction);
+          setState(() => scrollDirection = details.delta.direction);
+        },
+        onHorizontalDragEnd: (details) => setState(() {
+          if (_selectedTab != 1)
+            _selectedTab++;
+          else
+            _selectedTab--;
+        }),
+        child: _tabs[_selectedTab],
+      ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
+        focusColor: Theme.of(context).primaryColor,
         onPressed: () {
           print('Cart Icon was tapped');
           Navigator.pushNamed(context, '/cart');
@@ -121,10 +105,9 @@ class _TabScreenState extends State<TabScreen> {
         shape: CircularNotchedRectangle(),
         notchMargin: 5,
         child: BottomNavigationBar(
+          elevation: 8,
           onTap: _selectTab,
-          // backgroundColor: Colors.white,
-          selectedItemColor: Colors.white,
-          // selectedFontSize: 40,
+          selectedItemColor: Colors.black,
           unselectedItemColor: Theme.of(context).primaryColor,
           currentIndex: _selectedTab,
           type: BottomNavigationBarType.fixed,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sneakers_app/screens/screens.dart';
 
 import '../models/shoe.dart';
 import '../services/services.dart';
@@ -40,12 +41,12 @@ class ShoesList extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 Shoe shoe = snapshot.data[index];
-                // if (shoe.imgPath.contains('stockx')) {
-                //   print(shoe.imgPath);
-                // }
+                bool isStockxImg =
+                    shoe.imgUrl.contains('stockx') ? true : false;
                 return Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Card(
+                    // color: Colors.grey[200],
                     elevation: 4,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18)),
@@ -57,9 +58,10 @@ class ShoesList extends StatelessWidget {
                             left: 0,
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: Text(
-                                '\$${shoe.retailPrice}',
-                              ),
+                              child: Text('\$${shoe.retailPrice}',
+                                  style: Theme.of(context).textTheme.headline6
+                                  // TextStyle(color: Colors.black),
+                                  ),
                             ),
                           ),
                           Positioned(
@@ -77,21 +79,28 @@ class ShoesList extends StatelessWidget {
                                     radius: 10,
                                     child: Icon(
                                       Icons.add,
-                                      size: 15,
+                                      color: Colors.black,
+                                      size: 17,
                                     ),
                                   ),
                                 )),
                           ),
                           GestureDetector(
                             onTap: () {
-                              // print(shoe.price);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ShoeDetails(shoe),
+                                ),
+                              );
                             },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.network(
-                                  shoe.imgUrl,
-                                ),
+                                Image.network(shoe.imgUrl,
+                                    height: isStockxImg
+                                        ? (screenSize.height * .22)
+                                        : null),
                                 FittedBox(
                                   child: Text(
                                     shoe.name,

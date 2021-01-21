@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Checkout extends StatelessWidget {
-  const Checkout({
+class CartDetails extends StatelessWidget {
+  const CartDetails({
     Key key,
     @required this.cart,
     @required this.total,
@@ -20,6 +20,7 @@ class Checkout extends StatelessWidget {
       decoration: ShapeDecoration(
         // color: Theme.of(context).primaryColor,
         shape: RoundedRectangleBorder(
+          side: BorderSide(style: BorderStyle.solid, color: Colors.black87),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(18),
             topRight: Radius.circular(18),
@@ -46,9 +47,13 @@ class Checkout extends StatelessWidget {
               width: screenSize.width * .9,
               height: screenSize.height * .06,
               child: RaisedButton(
+                  color: Colors.black,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18)),
-                  child: Text('Checkout'),
+                  child: Text(
+                    'Checkout',
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onPressed: () {
                     print('Trying to checkout');
                   }),

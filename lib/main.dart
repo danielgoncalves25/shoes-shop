@@ -46,21 +46,25 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          brightness: Brightness.dark,
+          // brightness: Brightness.dark,
           backgroundColor: Colors.grey,
-          primaryColor: Colors.lightBlue[800],
+          primaryColor: Colors.orange[400],
           accentColor: Colors.blueAccent,
           fontFamily: 'Oswald',
           textTheme: TextTheme(
             headline1: GoogleFonts.oswald(
               fontSize: 32,
+              color: Colors.black,
             ),
             headline4: GoogleFonts.oswald(
               fontSize: 20,
+              color: Colors.black,
+
               // fontWeight: FontWeight.w500
             ),
             headline6: GoogleFonts.oswald(
               fontSize: 14,
+              color: Colors.black,
             ),
           ),
         ),

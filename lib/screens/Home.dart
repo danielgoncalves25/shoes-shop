@@ -97,8 +97,9 @@ class _HomeState extends State<Home> {
                                       return Container(
                                         width: screenSize.width * .25,
                                         child: Card(
+                                          elevation: 0,
                                           color: selectedBrand == currentBrand
-                                              ? Theme.of(context).accentColor
+                                              ? Colors.black
                                               : null,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
@@ -113,25 +114,36 @@ class _HomeState extends State<Home> {
                                                   selectedBrand == currentBrand
                                                       ? null
                                                       : currentBrand);
-                                              setState(() {
-                                                defaultShoes = context
-                                                    .read<ApiService>()
-                                                    .fetchShoes(
-                                                        year: year,
-                                                        gender: 'men',
-                                                        brand: selectedBrand ??
-                                                            '');
-                                              });
+                                              setState(
+                                                () {
+                                                  defaultShoes = context
+                                                      .read<ApiService>()
+                                                      .fetchShoes(
+                                                          year: year,
+                                                          gender: 'men',
+                                                          brand:
+                                                              selectedBrand ??
+                                                                  '');
+                                                },
+                                              );
                                             },
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Center(
-                                                child: Text(
-                                                  currentBrand,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline6,
+                                                child: FittedBox(
+                                                  fit: BoxFit.cover,
+                                                  child: Text(
+                                                    currentBrand,
+                                                    style: selectedBrand ==
+                                                            currentBrand
+                                                        ? TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 13)
+                                                        : Theme.of(context)
+                                                            .textTheme
+                                                            .headline6,
+                                                  ),
                                                 ),
                                               ),
                                             ),
