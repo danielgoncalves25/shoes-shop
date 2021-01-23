@@ -36,8 +36,8 @@ class _ProfileState extends State<Profile> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('First Name: ${userData['name']['firstName']}'),
-                  Text('Last Name: ${userData['name']['lastName']}'),
+                  Text('First Name: ${userData['info']['firstName']}'),
+                  Text('Last Name: ${userData['info']['lastName']}'),
                   Text('hi'),
                 ],
               );

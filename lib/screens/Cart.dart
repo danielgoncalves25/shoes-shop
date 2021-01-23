@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../services/services.dart';
 import '../widgets/widgets.dart';
@@ -71,26 +70,13 @@ class _CartState extends State<Cart> {
                             final Shoe shoe = Shoe.fromMap(cart[index]);
                             bool isStockxImg =
                                 shoe.imgUrl.contains('stockx') ? true : false;
-                            return Slidable(
-                              actionPane: SlidableDrawerActionPane(),
-                              secondaryActions: [
-                                IconSlideAction(
-                                  foregroundColor: Colors.red[600],
-                                  color: Colors.transparent,
-                                  caption: 'Delete',
-                                  closeOnTap: true,
-                                  icon: Icons.delete_outline,
-                                  onTap: () {
-                                    print('deleting ${shoe.name}');
-                                    context.read<ApiService>().deleteFromCart(
-                                        snapshot.data.data(), uid, shoe, index);
-                                  },
-                                )
-                              ],
-                              child: CartCard(
-                                  screenSize: screenSize,
-                                  shoe: shoe,
-                                  isStockxImg: isStockxImg),
+                            return SliderWidget(
+                              screenSize: screenSize,
+                              uid: uid,
+                              shoe: shoe,
+                              isStockxImg: isStockxImg,
+                              index: index,
+                              userData: snapshot.data.data(),
                             );
                           },
                         ),

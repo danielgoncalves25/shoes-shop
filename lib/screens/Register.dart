@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:select_form_field/select_form_field.dart';
+import 'package:sneakers_app/const.dart';
 
 import '../widgets/widgets.dart';
 import '../services/services.dart';
@@ -15,7 +17,7 @@ class _RegisterState extends State<Register> {
   final lastNameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  // final shoeSizeController;
+  double shoeSize;
 
   var message;
 
@@ -45,15 +47,44 @@ class _RegisterState extends State<Register> {
                   InputForm(emailController, "Email", Icons.email),
                   SizedBox(height: statusBarHeight),
                   InputForm(passwordController, "Password", Icons.lock),
-                  // SizedBox(height: statusBarHeight),
-                  // InputForm(passwordController, "Password", Icons.lock),
+                  SizedBox(height: statusBarHeight),
+                  Container(
+                    width: screenSize.width * .9,
+                    height: screenSize.height * .075,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                              style: BorderStyle.solid, color: Colors.grey),
+                          borderRadius: BorderRadius.circular(18)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: DropdownButton(
+                          underline: Container(),
+                          isExpanded: true,
+                          hint: Text('Select Your Shoe Size'),
+                          value: shoeSize,
+                          focusColor: Theme.of(context).primaryColor,
+                          onChanged: (value) {
+                            setState(() => shoeSize = value);
+                          },
+                          items: menSizes.map((size) {
+                            return DropdownMenuItem(
+                              value: size,
+                              child: Text('$size'),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                  ),
                   RaisedButton(
                     onPressed: () async {
                       message = await context.read<Authentication>().signUp(
                           firstName: firstNameController.text,
                           lastName: lastNameController.text,
                           email: emailController.text,
-                          password: passwordController.text);
+                          password: passwordController.text,
+                          size: shoeSize);
 
                       if (message is bool && message) {
                         Navigator.pushReplacement(

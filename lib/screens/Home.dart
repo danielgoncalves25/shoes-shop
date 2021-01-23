@@ -71,7 +71,7 @@ class _HomeState extends State<Home> {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                               child: Text(
-                                'Hello ${userData['name']['firstName']}',
+                                'Hello ${userData['info']['firstName']}',
                                 style: Theme.of(context).textTheme.headline1,
                               ),
                             ),

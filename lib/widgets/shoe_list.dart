@@ -41,6 +41,7 @@ class ShoesList extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 Shoe shoe = snapshot.data[index];
+                shoe.size = userData['info']['size'];
                 bool isStockxImg =
                     shoe.imgUrl.contains('stockx') ? true : false;
                 return Padding(
@@ -90,7 +91,10 @@ class ShoesList extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ShoeDetails(shoe),
+                                  builder: (context) => ShoeDetails(
+                                    shoe: shoe,
+                                    userData: userData,
+                                  ),
                                 ),
                               );
                             },

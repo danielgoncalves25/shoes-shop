@@ -31,18 +31,22 @@ class Authentication {
     }
   }
 
-  Future signUp(
-      {String email,
-      String password,
-      String firstName,
-      String lastName}) async {
+  Future signUp({
+    String email,
+    String password,
+    String firstName,
+    String lastName,
+    double size,
+  }) async {
+    print(size);
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       _fireStore.collection('users').doc(currentUser.uid).set({
-        'name': {
+        'info': {
           'firstName': firstName,
           'lastName': lastName,
+          'size': size,
         },
         'cart': []
       });

@@ -83,27 +83,48 @@ class ApiService {
   void addToCart(var userData, String uid, Shoe shoe) async {
     List cartItems = userData['cart'];
     bool isShoeInCart = false;
+    print(shoe.size);
 
     cartItems.forEach((shoeInCart) {
-      if (shoeInCart['sku'] == shoe.sku) {
+      if (shoeInCart['sku'] == shoe.sku && shoeInCart['size'] == shoe.size) {
         isShoeInCart = true;
         shoeInCart['quantity'] += 1;
       }
     });
-
     if (isShoeInCart == false) {
       cartItems.add(shoe.toJson());
     }
-
     await FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
         .update({'cart': cartItems});
   }
 
-  void deleteFromCart(var userData, String uid, Shoe shoe, int index) async {
+  void deleteFromCart(var userData, String uid, int index) async {
     List cartItems = userData['cart'];
     cartItems.removeAt(index);
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .update({'cart': cartItems});
+  }
+
+  void incrementQuantity(var userData, String uid, int index) async {
+    List cartItems = userData['cart'];
+    cartItems[index]['quantity']++;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .update({'cart': cartItems});
+  }
+
+  void decrementQuantity(var userData, String uid, int index) async {
+    List cartItems = userData['cart'];
+    var quantity = cartItems[index]['quantity']--;
+    if (quantity == 1) {
+      print('the quan is zero');
+      cartItems.removeAt(index);
+    }
     await FirebaseFirestore.instance
         .collection('users')
         .doc(uid)

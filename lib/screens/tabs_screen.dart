@@ -29,10 +29,6 @@ class _TabScreenState extends State<TabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // var userData = context.watch<DocumentSnapshot>().data();
-    // print(userData);
-    var userData = {'cart': []};
-
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Theme.of(context).primaryColor,
@@ -105,9 +101,10 @@ class _TabScreenState extends State<TabScreen> {
         shape: CircularNotchedRectangle(),
         notchMargin: 5,
         child: BottomNavigationBar(
+          backgroundColor: Colors.black,
           elevation: 8,
           onTap: _selectTab,
-          selectedItemColor: Colors.black,
+          selectedItemColor: Colors.white,
           unselectedItemColor: Theme.of(context).primaryColor,
           currentIndex: _selectedTab,
           type: BottomNavigationBarType.fixed,
