@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:select_form_field/select_form_field.dart';
 import 'package:sneakers_app/const.dart';
 
 import '../widgets/widgets.dart';
@@ -77,7 +76,7 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                   ),
-                  RaisedButton(
+                  ElevatedButton(
                     onPressed: () async {
                       message = await context.read<Authentication>().signUp(
                           firstName: firstNameController.text,
@@ -92,18 +91,25 @@ class _RegisterState extends State<Register> {
                           MaterialPageRoute(builder: (context) => TabScreen()),
                         );
                       }
+                      // if (message is String) {
+                      // print('should show snackbar');
+                      // final snackBar = SnackBar(content: Text('message'));
+                      // Scaffold.of(context).showSnackBar(snackBar);
+                      // }
                     },
                     child: Text(
                       'Register',
                       style: TextStyle(fontSize: 15),
                     ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18)),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18)),
+                    ),
                   ),
                   Row(
                     children: <Widget>[
                       Text("Already Registered? Please"),
-                      FlatButton(
+                      TextButton(
                           onPressed: () {
                             Navigator.pushReplacement(
                               context,

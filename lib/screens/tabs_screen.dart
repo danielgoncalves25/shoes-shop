@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../services/services.dart';
 import './screens.dart';
@@ -42,10 +42,12 @@ class _TabScreenState extends State<TabScreen> {
             Text(_selectedTab == 0 ? "Home" : 'Profile',
                 style: Theme.of(context).textTheme.headline1),
             _selectedTab == 1
-                ? RaisedButton(
+                ? ElevatedButton(
                     child: Text('Sign Out'),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18),
+                      ),
                     ),
                     onPressed: () {
                       context.read<Authentication>().signOut();

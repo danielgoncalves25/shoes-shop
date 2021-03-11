@@ -26,7 +26,7 @@ class Authentication {
           email: email, password: password);
       return true;
     } on FirebaseAuthException catch (e) {
-      print(e.code + e.message);
+      // print(e.code + e.message);
       return e.code;
     }
   }
@@ -54,7 +54,7 @@ class Authentication {
 
       return true;
     } on FirebaseAuthException catch (e) {
-      print(e.code + e.message);
+      print(e.code);
       return e.code;
     }
   }

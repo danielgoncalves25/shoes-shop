@@ -21,6 +21,7 @@ class ShowMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('the message is ${errors[message]}');
     // return FutureBuilder(
     //   future: message,
     //   builder: (context, snapshot) {
@@ -35,7 +36,6 @@ class ShowMessage extends StatelessWidget {
     //     return Container();
     //   },
     // );
-    print('the message is $message');
     return Text(message == null ? ' ' : errors[message],
         style: TextStyle(color: Colors.redAccent));
   }

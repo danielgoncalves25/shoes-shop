@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +21,7 @@ class _ShoeDetailsState extends State<ShoeDetails> {
   bool _openSize = true;
   double _selectedSize;
   bool _openDesc = true;
+  bool displayErorr = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +48,11 @@ class _ShoeDetailsState extends State<ShoeDetails> {
                 .read<ApiService>()
                 .addToCart(widget.userData, uid, widget.shoe);
             Navigator.pop(context);
+          } else {
+            setState(() => displayErorr = true);
+            Timer(const Duration(seconds: 3), () {
+              setState(() => displayErorr = false);
+            });
           }
         },
       ),
@@ -127,6 +135,12 @@ class _ShoeDetailsState extends State<ShoeDetails> {
             SizedBox(
               height: 20,
             ),
+            displayErorr
+                ? Text(
+                    'Please Select a size',
+                    style: TextStyle(color: Colors.red[600]),
+                  )
+                : Container(),
             widget.shoe.story != ''
                 ? Padding(
                     padding: const EdgeInsets.symmetric(

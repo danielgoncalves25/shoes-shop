@@ -46,10 +46,11 @@ class CartDetails extends StatelessWidget {
             Container(
               width: screenSize.width * .9,
               height: screenSize.height * .06,
-              child: RaisedButton(
-                  color: Colors.black,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18)),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18)),
+                  ),
                   child: Text(
                     'Checkout',
                     style: TextStyle(color: Colors.white),

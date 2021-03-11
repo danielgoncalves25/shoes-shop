@@ -38,7 +38,7 @@ class _LoginState extends State<Login> {
                     InputForm(emailController, "Email", Icons.email),
                     SizedBox(height: screenSize.height * .04),
                     InputForm(passwordController, "Password", Icons.lock),
-                    RaisedButton(
+                    ElevatedButton(
                       onPressed: () async {
                         message = await context.read<Authentication>().signIn(
                             email: emailController.text,
@@ -57,14 +57,18 @@ class _LoginState extends State<Login> {
                         'Login',
                         style: TextStyle(fontSize: 15),
                       ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18)),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18)),
+                      ),
                     ),
                     Row(
                       children: <Widget>[
                         Text("Need to sign up?"),
-                        FlatButton(
-                          padding: const EdgeInsets.all(0),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(0),
+                          ),
                           onPressed: () {
                             Navigator.pushReplacement(
                               context,
