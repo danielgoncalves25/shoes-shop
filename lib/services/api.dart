@@ -4,15 +4,22 @@ import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/shoe.dart';
+import './services.dart';
 
 class ApiService {
   ApiService();
 
-  String shoesUrl = 'https://api.thesneakerdatabase.dev/v2/sneakers?limit=10';
-  String gendersUrl = 'https://api.thesneakerdatabase.dev/v2/genders';
-  String brandsUrl = 'https://api.thesneakerdatabase.dev/v2/brands';
+  String shoesUrl =
+      'https://the-sneaker-database.p.rapidapi.com/sneakers?limit=10';
+  String gendersUrl = 'https://the-sneaker-database.p.rapidapi.com/genders';
+  String brandsUrl = 'https://the-sneaker-database.p.rapidapi.com/brands';
 
   String releaseYear = '2020';
+
+  Map<String, String> headers = {
+    "x-rapidapi-key": sneakersKey,
+    "x-rapidapi-host": "the-sneaker-database.p.rapidapi.com",
+  };
 
   Future fetchShoes(
       {String year = '',
@@ -34,7 +41,7 @@ class ApiService {
       query += '&gender=$gender';
     }
     try {
-      var response = await http.get(query);
+      var response = await http.get(query, headers: headers);
       if (response.statusCode == 200) {
         var data = json.decode(response.body)['results'];
         // print(data);
@@ -44,14 +51,14 @@ class ApiService {
       }
       print(response.statusCode);
     } catch (e) {
-      print('error : $e');
+      print('Error fetching shoes : $e');
       return null;
     }
   }
 
   Future fetchBrands() async {
     try {
-      var response = await http.get(brandsUrl);
+      var response = await http.get(brandsUrl, headers: headers);
       if (response.statusCode == 200) {
         var data = json.decode(response.body)['results'];
         List<String> brands = [];
@@ -60,14 +67,14 @@ class ApiService {
         return brands;
       }
     } catch (e) {
-      print('There was a problem: $e');
+      print('Error fetching Brand: $e');
       return null;
     }
   }
 
   Future fetchGenders() async {
     try {
-      var response = await http.get(gendersUrl);
+      var response = await http.get(gendersUrl, headers: headers);
       if (response.statusCode == 200) {
         var data = json.decode(response.body)['results'];
         List<String> genders = [];
@@ -75,7 +82,7 @@ class ApiService {
         return genders;
       }
     } catch (e) {
-      print('There was a problem');
+      // print('There was a problem');
       return null;
     }
   }
