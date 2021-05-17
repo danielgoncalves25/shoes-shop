@@ -25,7 +25,7 @@ class Shoe {
   factory Shoe.fromMap(Map<String, dynamic> map) {
     return Shoe(
       brand: map['brand'],
-      imgUrl: map['imgUrl'],
+      imgUrl: map['imgUrl'] == null ? map['image']['original'] : map['imgUrl'],
       name: map['name'],
       retailPrice: map['retailPrice'],
       releaseDate: map['releaseDate'],
